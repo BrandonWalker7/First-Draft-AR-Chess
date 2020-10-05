@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "148814822315",
+    "firebase_url": "https://pleasedochess.firebaseio.com",
+    "project_id": "pleasedochess",
+    "storage_bucket": "pleasedochess.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148814822315:android:0a49aac2679187b5bd70ee",
+        "android_client_info": {
+          "package_name": "com.Company.ProductName"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148814822315-707869rkkkiu4corjut22ghss5msgk9o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMiHIrqWiQTl697NWegKlBg_eg2VW0qs4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148814822315-707869rkkkiu4corjut22ghss5msgk9o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
