@@ -28,11 +28,6 @@ public class Register : MonoBehaviour
     
     public void RegisterButton()
     {
-        print("clicked register");
-        print(Email);
-        print(Password);
-        
-        print(Password);
         if (Password != "" && Email != "" && ConfPass != "" && (Password == ConfPass))
         {
            auth.CreateUserWithEmailAndPasswordAsync(Email, Password).ContinueWith(task => {

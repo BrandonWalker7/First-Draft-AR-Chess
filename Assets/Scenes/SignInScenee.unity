@@ -182,7 +182,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sign Up
+  m_Text: Sign In
 --- !u!222 &26257444
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -831,6 +831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   email: {fileID: 272246567}
   password: {fileID: 764702763}
+  warningStrings: {fileID: 0}
   yourButton: {fileID: 1361131703}
 --- !u!1 &954571191
 GameObject:

@@ -12,8 +12,11 @@ public class SignIn : MonoBehaviour
 {
     public GameObject email;
     public GameObject password;
+    public GameObject warningStrings;
+    Firebase.Auth.FirebaseUser user;
     private string Email;
     private string Password;
+    private string WarningString;
     public UnityEngine.UI.Button yourButton;
     Firebase.Auth.FirebaseAuth auth;
 
@@ -34,7 +37,8 @@ public class SignIn : MonoBehaviour
             {
                 // Create and hold a reference to your FirebaseApp,
                 // where app is a Firebase.FirebaseApp property of your application class.
-                auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+                InitializeFirebase();
+                print(auth.CurrentUser);
 
                 // Set a flag here to indicate whether Firebase is ready to use by your app.
             }
@@ -45,6 +49,35 @@ public class SignIn : MonoBehaviour
                 // Firebase Unity SDK is not safe to use here.
             }
         });
+
+        
+    }
+
+    void InitializeFirebase()
+    {
+        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        auth.StateChanged += AuthStateChanged;
+        AuthStateChanged(this, null);
+    }
+
+    void AuthStateChanged(object sender, System.EventArgs eventArgs)
+    {
+        if (auth.CurrentUser != user)
+        {
+            bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
+            if (!signedIn && user != null)
+            {
+                Debug.LogError("Signed out " + user.UserId);
+            }
+            user = auth.CurrentUser;
+            if (signedIn)
+            {
+                Debug.LogError("Signed in " + user.UserId);
+                //displayName = user.DisplayName ?? "";
+               // emailAddress = user.Email ?? "";
+                
+            }
+        }
     }
 
     public void SignInAuth()
@@ -62,15 +95,12 @@ public class SignIn : MonoBehaviour
                     Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
                     return;
                 }
-            
+                
                 Firebase.Auth.FirebaseUser newUser = task.Result;
                 Debug.LogFormat("User signed in successfully: {0} ({1})",
                     newUser.DisplayName, newUser.UserId);
-                
-
-
             });
-
+           
         }
 
         else
@@ -85,6 +115,7 @@ public class SignIn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (email.GetComponent<InputField>().isFocused)
@@ -96,5 +127,18 @@ public class SignIn : MonoBehaviour
         //UserName = userName.GetComponent<InputField>().text;
         Email = email.GetComponent<InputField>().text;
         Password = password.GetComponent<InputField>().text;
+
+        if (signedIn)
+        {
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+    }
+
+    void OnDestroy()
+    {
+        auth.StateChanged -= AuthStateChanged;
+        auth.SignOut();
+        
+        
     }
 }

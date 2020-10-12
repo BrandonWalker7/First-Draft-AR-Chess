@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SignInScenee.unity
     guid: 09d26cf89976f9645b4a2f69a6065484
   - enabled: 1
+    path: Assets/AR Chess/Scenes/NonAR_Scene.unity
+    guid: ee8a7dd8f787fdd479f6e47b4c3e35c6
+  - enabled: 1
     path: Assets/Scenes/test.unity
     guid: 6e27612c01ea0dd4fb89facf0edd4c58
   m_configObjects: {}
