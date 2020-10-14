@@ -23,7 +23,7 @@ public class PieceMovement : MonoBehaviour {
 
     public GameObject[] squares;
 
-    //when a piece is captureed it goes here
+    //when a piece is captured it goes here
     public Transform whitecaptures_pos;
     public Transform blackcaptures_pos;
 
@@ -277,8 +277,16 @@ public class PieceMovement : MonoBehaviour {
 
         piece.captured = true;
 
-        resetSquares();
-        changePlayer();
+        if (piece.pieceTp == PieceType.king && piece.captured == true)
+        {
+            Debug.Log("Checkmate!");
+            Application.Quit();
+        }
+        else
+        {
+            resetSquares();
+            changePlayer();
+        }
     }
 
     //verify if a check is being produced generally at the end of a turn
