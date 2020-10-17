@@ -82,8 +82,6 @@ public class PieceMovement : MonoBehaviour {
                 kk++;
             }
         }
-
-
         disablePieces(1);
     }
 
@@ -240,20 +238,16 @@ public class PieceMovement : MonoBehaviour {
         if (piece.color == 0)
         {
             destination = whitecaptures_pos.position + ((float)nbWhitecaptures /30 )* whitecaptures_pos.right;
-            
         }
         else
         {
-            destination = blackcaptures_pos.position + ((float)nbBlackcaptures /30) * blackcaptures_pos.right;
-            
+            destination = blackcaptures_pos.position + ((float)nbBlackcaptures /30) * blackcaptures_pos.right;  
         }
 
 
         // linear movement
         while (elapsed2 <= timeToMove)
         {
-            
-
             piece.transform.position = (destination-origin) * elapsed2 / timeToMove + origin;
 
             elapsed2 += Time.fixedDeltaTime;
@@ -316,7 +310,6 @@ public class PieceMovement : MonoBehaviour {
             {
                 float distToKing = (pc.transform.position - tf.position).magnitude;
                 float angle = 0;
-
                 //check posible directions of the pawn refered to the king
                 if (pc.color == 0)
                 {
@@ -334,21 +327,13 @@ public class PieceMovement : MonoBehaviour {
                     {
                         check = true;
                     }
-
                 }
-
                 //movement is posible if can move forward and is not blocked 
                 // or if there is a opponent piece at the diagonal square
-
-                
-
-
             }
-
             /////////////
-            //  knight
+            //  KNIGHT
             ////////////
-
             else if (pc.pieceTp == PieceType.knight)
             {
                 float distToKing = (pc.transform.position - tf.position).magnitude;
@@ -360,9 +345,8 @@ public class PieceMovement : MonoBehaviour {
                     check = true;
                 }
             }
-
             /////////////
-            //  bishop
+            //  BISHOP
             ////////////
             else if (pc.pieceTp == PieceType.bishop)
             {
@@ -381,7 +365,7 @@ public class PieceMovement : MonoBehaviour {
                 }
             }
             /////////////
-            //  rock
+            //  ROOK
             ////////////
             else if (pc.pieceTp == PieceType.rock)
             {
@@ -425,7 +409,7 @@ public class PieceMovement : MonoBehaviour {
             }
 
             ////////////
-            // king
+            // KING
             ///////////
             else if (pc.pieceTp == PieceType.king)
             {
@@ -434,17 +418,15 @@ public class PieceMovement : MonoBehaviour {
                 if ( (Mathf.Abs(distToKing - pc.distance * Mathf.Sqrt(2)) < th || Mathf.Abs(distToKing - pc.distance)<th ) && pc.captured == false)
                 {
                     check = true;
-                }
-
-                
+                }   
             }
+        }
 
-           
-
+        if (check == true)
+        {
+            Debug.Log("Check!");
         }
         return check;
-
-
     }
 
 

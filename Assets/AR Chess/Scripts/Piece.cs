@@ -186,7 +186,7 @@ public class Piece : MonoBehaviour {
             }
         }
         /////////////
-        //  rock
+        //  ROOK
         ////////////
         else if (pieceTp == PieceType.rock)
         {
