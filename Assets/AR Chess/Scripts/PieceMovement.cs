@@ -258,7 +258,6 @@ public class PieceMovement : MonoBehaviour {
         //enable event system
         mod.enabled = true;
 
-
         //increment  captures
         if (piece.color == 0)
         {
