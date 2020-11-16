@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 //this enum holds the value/type of the piece
 public enum PieceType
 {       rock,
@@ -133,7 +134,6 @@ public class Piece : MonoBehaviour {
                 {
                     //the square is activated and can be selected 
                     //set the captured piece
-                   
                     sq.GetComponent<ChessSquare>().active(capturedPiece);
                 }
 
@@ -231,23 +231,35 @@ public class Piece : MonoBehaviour {
         ///////////
         else if (pieceTp == PieceType.king)
         {
+            int inCheck = 0;
+            
             foreach (GameObject sq in piecemovScript.squares)
             {
                 capturedPiece = GetOccupiedDiffCol(sq);
                 float distToSquare = (transform.position - sq.transform.position).magnitude;
-
+                
                 if ((Mathf.Abs(distToSquare - distance) < th || Mathf.Abs(distToSquare - distance * Mathf.Sqrt(2)) < th) && IsOccupied_sameCol(sq) == false
                     && IsBlocked(sq) == false
                     && piecemovScript.CheckCheck(color, sq.transform)==false && captured == false)
                 {
+                    inCheck += 1;
                     sq.GetComponent<ChessSquare>().active(capturedPiece);
-
                 }
+                else if((Mathf.Abs(distToSquare - distance) < th || Mathf.Abs(distToSquare - distance * Mathf.Sqrt(2)) < th) && IsOccupied_sameCol(sq) == false
+                    && IsBlocked(sq) == false
+                    && piecemovScript.CheckCheck(color, sq.transform) == true && captured == false)
+                {
+                    Debug.Log("i am in piece and true");
+                }
+            }
+            if(inCheck == 0)
+            {
+                Debug.Log("CheckMate");
+                piecemovScript.enablePieces(0);
+                
 
             }
         }
-
-
     }
 
 
@@ -320,7 +332,7 @@ public class Piece : MonoBehaviour {
     void OnTriggerEnter (Collider col)
 	{
 		if (col.gameObject.tag != "Untagged") {
-			Debug.Log ("Collision Has occur with: "+ col.gameObject.name);         
+			//Debug.Log ("Collision Has occur with: "+ col.gameObject.name);         
 
         }
 

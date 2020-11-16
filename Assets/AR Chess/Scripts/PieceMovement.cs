@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEditor;
 
 public class PieceMovement : MonoBehaviour {
 
@@ -139,9 +140,11 @@ public class PieceMovement : MonoBehaviour {
     public void movePiece (GameObject groundPoint, Piece pc)
 	{
 		Debug.Log("move piece = "+selectedPiece.name+ " to "+ groundPoint.name);
-		StartCoroutine( moveToObjective(groundPoint.transform,pc));
-              
+        //move routine, at end changes player
+        StartCoroutine(moveToObjective(groundPoint.transform, pc));
+        changePlayer();
     }
+    
 
 
     //this calls the second corrutine to move the piece away from the board 
@@ -158,6 +161,28 @@ public class PieceMovement : MonoBehaviour {
 	{
         //disable event system
         mod.enabled = false;
+
+        //variables for check
+        
+        if(playerTurn == 0)
+        {
+            Debug.Log("Iam 0");
+            
+            if (CheckCheck(this.playerTurn, kingPieceW.transform))
+            {
+                Debug.Log("i am in Mov and true");
+            }
+        }
+        else if(playerTurn == 1)
+        {
+            Debug.Log("Iam 1");
+           
+            if (CheckCheck(this.playerTurn, kingPieceB.transform))
+            {
+                Debug.Log("i am in Mov and true");
+            }
+        }
+        
 
         float elapsed = 0;
         Vector3 origin = selectedPiece.transform.position;
@@ -177,21 +202,19 @@ public class PieceMovement : MonoBehaviour {
 		selectedPiece.transform.position = tf.position;
 		selectedPiece = null;
 
-        
-       
         //CAPTURNG LOGIC
-        if(capturedPiece!=null)
+        if (capturedPiece!=null)
         {
             capturePieceCorrutine(capturedPiece);
         }
         else
         {
             //enable event system
-
             mod.enabled = true;
             resetSquares();
-            changePlayer();
+            
         }
+        
 
 
     }
@@ -207,7 +230,7 @@ public class PieceMovement : MonoBehaviour {
             playerTurn = 0;
             turnWhiteText.enabled = true;
         }
-
+        
         enablePieces(playerTurn);
         disablePieces(1-playerTurn);
     }
@@ -247,7 +270,7 @@ public class PieceMovement : MonoBehaviour {
             destination = blackcaptures_pos.position + ((float)nbBlackcaptures /30) * blackcaptures_pos.right;
             
         }
-
+        
 
         // linear movement
         while (elapsed2 <= timeToMove)
@@ -278,7 +301,6 @@ public class PieceMovement : MonoBehaviour {
         piece.captured = true;
 
         resetSquares();
-        changePlayer();
     }
 
     //verify if a check is being produced generally at the end of a turn
@@ -287,7 +309,9 @@ public class PieceMovement : MonoBehaviour {
         bool check = false;
 
         Piece[] pieces;
-  
+
+        
+        //0 = white 1 = black
         if (col == 0)
         {
             pieces = blackPieces;
@@ -332,9 +356,6 @@ public class PieceMovement : MonoBehaviour {
                 //movement is posible if can move forward and is not blocked 
                 // or if there is a opponent piece at the diagonal square
 
-                
-
-
             }
 
             /////////////
@@ -343,6 +364,7 @@ public class PieceMovement : MonoBehaviour {
 
             else if (pc.pieceTp == PieceType.knight)
             {
+                
                 float distToKing = (pc.transform.position - tf.position).magnitude;
 
 
@@ -427,13 +449,12 @@ public class PieceMovement : MonoBehaviour {
                 {
                     check = true;
                 }
-
-                
             }
 
            
 
         }
+        
         return check;
 
 
