@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
+using Vuforia;
 
 public class PieceMovement : MonoBehaviour {
 
@@ -145,11 +146,8 @@ public class PieceMovement : MonoBehaviour {
     //this calls the second corrutine to move the piece away from the board 
     public void capturePieceCorrutine(Piece piece)
     {
-        
         StartCoroutine(capturePiece(piece));
-
         Debug.Log("capture piece");
-        
     }
 
     IEnumerator moveToObjective (Transform tf, Piece capturedPiece)
@@ -159,6 +157,7 @@ public class PieceMovement : MonoBehaviour {
 
         float elapsed = 0;
         Vector3 origin = selectedPiece.transform.position;
+        Debug.Log("Origin of " + selectedPiece.name + ": " + origin);
 
 		// linear movement
 		while (elapsed <= timeToMove) 
@@ -170,13 +169,12 @@ public class PieceMovement : MonoBehaviour {
 		}
 
         lastSelectedPiece = selectedPiece;
+        Debug.Log("Moved to: " + lastSelectedPiece.transform.position);
         // deactivate the piece
         selectedPiece.transform.GetChild (0).GetComponent<Renderer> ().enabled = false;
 		selectedPiece.transform.position = tf.position;
 		selectedPiece = null;
 
-        
-       
         //CAPTURNG LOGIC
         if(capturedPiece!=null)
         {
@@ -185,12 +183,10 @@ public class PieceMovement : MonoBehaviour {
         else
         {
             //enable event system
-
             mod.enabled = true;
             resetSquares();
             changePlayer();
         }
-
 
     }
     public void changePlayer()
@@ -205,7 +201,6 @@ public class PieceMovement : MonoBehaviour {
             playerTurn = 0;
             turnWhiteText.enabled = true;
         }
-
         enablePieces(playerTurn);
         disablePieces(1-playerTurn);
     }
@@ -223,7 +218,6 @@ public class PieceMovement : MonoBehaviour {
             sq.GetComponent<ChessSquare>().onExitSquare();
         }
     }
-
 
     IEnumerator capturePiece(Piece piece)
     {
@@ -272,8 +266,17 @@ public class PieceMovement : MonoBehaviour {
 
         if (piece.pieceTp == PieceType.king && piece.captured == true)
         {
-            Debug.Log("Checkmate!");
-            Application.Quit();
+            if (piece.color == 0)
+            {
+                Debug.Log("Checkmate; Black wins!");
+            }
+            else
+            {
+                Debug.Log("Checkmate; White wins!");
+            }
+            //Application.Quit();
+            disablePieces(0);
+            disablePieces(1);
         }
         else
         {
@@ -378,7 +381,6 @@ public class PieceMovement : MonoBehaviour {
                     || Mathf.Abs(angle - 180) < 0.5f
                     || Mathf.Abs(angle - 270) < 0.5f) && pc.captured == false && RaycastIsBlocked(pc, tf) == false)
                 {
-
                     check = true;
                 }
             }
@@ -402,7 +404,6 @@ public class PieceMovement : MonoBehaviour {
                     || Mathf.Abs(angle - 225) < 0.5f
                     || Mathf.Abs(angle - 315) < 0.5f) && pc.captured == false && RaycastIsBlocked(pc, tf) == false)
                 {
-
                     check = true;
                 }
             }
@@ -425,6 +426,7 @@ public class PieceMovement : MonoBehaviour {
         {
             Debug.Log("Check!");
         }
+
         return check;
     }
 

@@ -320,7 +320,7 @@ public class Piece : MonoBehaviour {
     void OnTriggerEnter (Collider col)
 	{
 		if (col.gameObject.tag != "Untagged") {
-			Debug.Log ("Collision Has occur with: "+ col.gameObject.name);         
+			//Debug.Log ("Collision Has occur with: "+ col.gameObject.name);         
 
         }
 
